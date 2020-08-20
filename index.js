@@ -20,7 +20,7 @@ const bot = new ViberBot({
     name: "LMO bot",
     avatar: "https://townsquare.media/site/442/files/2017/09/arrow-season-6-deathstroke-rights-pic.jpg" // It is recommended to be 720x720, and no more than 100kb.
 });
-
+let port = process.env.PORT || 3000;
 // webhook connect 
 app.use("/viberbot", bot.middleware());
 app.listen(port, () => {
@@ -28,7 +28,27 @@ app.listen(port, () => {
         console.log(e);
     });
 });
- 
+bot.on(BotEvents.CONVERSATION_STARTED, (userProfile, isSubscribed, context, onFinish) => {
+    userProfile = userProfile.userProfile;
+    bot.sendMessage(userProfile, new TextMessage('FNI Insurance မှကြိုစိုပါသည်။ စမည်ကိုနှိပ်ပေးပါ', {
+            Type: "keyboard",
+            BgColor: "#000000",
+            DefaultHeight: false,
+            Buttons: [{
+                Columns: 6,
+                Rows: 1,
+                BgColor: "#ffffff",
+                ActionType: "reply",
+                ActionBody: 'Hi',
+                Text: `<font color='#000000'>စမည်</font>`,
+            }]
+        },
+        "",
+        "",
+        "",
+        7
+    )).catch(er => console.log(er))
+  });
 // Perfect! Now here's the key part:
 bot.on(BotEvents.MESSAGE_RECEIVED, (message, response) => {
     // Echo's back the message to the client. Your bot logic should sit here.
